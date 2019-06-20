@@ -32,13 +32,18 @@ class SidePanel extends Component {
               <Image src={logo} size='small'/>
             </Grid.Row>
             <Grid.Row centered>
+            <Link to="/claims">
+                <Button onClick={this.handleSidebarClickList} style={{width: "100%"}}>Claims</Button>
+              </Link>              
+            </Grid.Row>
+            <Grid.Row centered>
               <Link to="/requests">
                 <Button onClick={this.handleSidebarClickList} style={{width: "100%"}}>List of applications</Button>
               </Link>
             </Grid.Row>
             <Grid.Row centered>
-              <Link to="/">
-                <Button onClick={this.handleSidebarClickAdd} style={{width: "100%"}}>List of cases</Button>
+              <Link to="/history">
+                <Button onClick={this.handleSidebarClickAdd} style={{width: "100%"}}>History</Button>
               </Link>
             </Grid.Row>
             <Grid.Row centered>

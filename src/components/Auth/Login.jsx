@@ -38,7 +38,7 @@ class Login extends React.Component {
         this.setState({
           loading: false
         })
-        this.props.history.push('/')
+        this.props.history.push('/requests')
       })
       .catch(err => {
         console.log(err)

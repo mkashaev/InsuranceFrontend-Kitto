@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
-// import { Provider } from 'react-redux'
-// import { store } from '../redux/store'
-import ListOfApplications from './ListOfApplications/ListOfApplications'
-// import Login from './Auth/Login'
 
-// import { ReactComponent as Logo } from './components/images/logo.svg'
+import ListOfPendingClaims from './ListOfClaims/ListOfPendingClaims'
+import ListOfRequests from './ListOfApplications/ListOfRequests'
+import ListOfHistoryApps from './ListOfApplications/ListOfHistoryApps'
+
 
 import SidePanel from './SidePanel/SidePanel'
 import './App.css'
@@ -17,7 +16,9 @@ class App extends Component {
         <BrowserRouter>
           <SidePanel>
             <Switch>
-              <Route path="/requests" render={()=><ListOfApplications />} />
+              <Route path="/claims"   render={()=><ListOfPendingClaims status="PENDING%2CACCEPTED" action="CLAIMING" type="claims"/>}/>
+              <Route path="/requests" render={()=><ListOfRequests status="PENDING" action="REQUESTS" type="requests"/>}/>
+              <Route path="/history"  render={()=><ListOfHistoryApps status="REJECTED,ACCEPTED" action="HISTORY" type="requests"/>}/>
               <Redirect from="*" to="/requests"/>
             </Switch>
           </SidePanel>

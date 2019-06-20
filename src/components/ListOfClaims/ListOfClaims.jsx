@@ -1,9 +1,9 @@
 import React from "react";
 import { List, Segment, Header, Container, Label, Placeholder, Pagination, Icon } from "semantic-ui-react";
-import InsureApplicationModal from './InsureApplication'
+import ClaimModal from './ClaimModal'
 
 
-import './ListOfApplications.css'
+import './ListOfClaims.css'
 
 
 export default class extends React.Component {
@@ -75,7 +75,7 @@ export default class extends React.Component {
                   justifyContent: "space-between", 
                   alignItems: "center"}}>
                   <List.Header as="a" onClick={()=>this.handleOnOpen(app)}>
-                    Insurance contract number: {app.insurancerequestid}
+                    Claimed number: {app.claimid}
                   </List.Header>
                   {/** Set color to label */}
                   <Label color={app.status==="pending"? "yellow": app.status==="accepted"? "green": "red"} 
@@ -84,7 +84,7 @@ export default class extends React.Component {
                     {app.status}
                   </Label>
                 </div>
-                <List.Description as="a">Created: {app.policycreatedcate}</List.Description>
+                <List.Description as="a">Claimed date: {app.claimedDate}</List.Description>
               </List.Content>
             </List.Item>
             ))}
@@ -104,7 +104,7 @@ export default class extends React.Component {
         </Container>
         {
           this.state.open === false ? "" : 
-          <InsureApplicationModal 
+          <ClaimModal
             data={this.state.currentApp} 
             open={this.state.open} 
             close={this.handleOnClose} />

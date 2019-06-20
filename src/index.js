@@ -5,7 +5,7 @@ import App from './components/App'
 import Login from './components/Auth/Login'
 import * as serviceWorker from './serviceWorker'
 
-import {BrowserRouter as Router, Switch, Route, withRouter} from 'react-router-dom'
+import {BrowserRouter as Router, Switch, Route, withRouter, Redirect} from 'react-router-dom'
 import { Provider, connect } from 'react-redux'
 import store from './redux/store'
 import { setUser, clearUser } from './redux/actions'
@@ -30,7 +30,8 @@ class Root extends Component {
     return(
       <Switch>
         <Route path="/login" component={Login} />
-        <Route path="/" component={App} />
+        <Route path="/requests" component={App} />
+        <Redirect from="*" to="/requests" />
       </Switch>
     )
   }

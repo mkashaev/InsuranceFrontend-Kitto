@@ -29,6 +29,34 @@ export const requestsListLoadFailed = () => ({
   type: actionTypes.REQUESTS_LIST_LOAD_FAILED
 })
 
-// export const changeCurrentPage = (page) => ({
-//   type: actionTypes.CHANGE_PAGE_OF_REQUESTS
-// })
+// History requests action creators
+export const historyRequestsListLoading = () => ({
+  type: actionTypes.HISTORY_REQUESTS_LIST_LOADING
+})
+
+export const historyRequestsListLoaded = (requests, currentPage, totalPages) => ({
+  type: actionTypes.HISTORY_REQUESTS_LIST_LOADED,
+  requests,
+  currentPage,
+  totalPages
+})
+
+export const historyRequestsListLoadFailed = () => ({
+  type: actionTypes.HISTORY_REQUESTS_LIST_LOAD_FAILED
+})
+
+// Claiming action creators
+export const claimingListLoading = () => ({
+  type: actionTypes.CLAIMING_LIST_LOADING
+})
+
+export const claimingListLoaded = (requests, currentPage, totalPages) => ({
+  type: actionTypes.CLAIMING_LIST_LOADED,
+  requests,
+  currentPage,
+  totalPages
+})
+
+export const claimingListLoadFailed = () => ({
+  type: actionTypes.CLAIMING_LIST_LOAD_FAILED
+})
