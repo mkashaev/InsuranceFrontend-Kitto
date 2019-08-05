@@ -5,7 +5,7 @@ import { loadRequestsActionCreator } from '../../redux/actions/loadRequests'
 
 // StopGap TO DO: make sorting on API side
 const sortFunction = (arr) => {
-  return arr.sort((a, b) => b.insurancerequestid - a.insurancerequestid)
+  return arr.sort((a, b) => b.claimid - a.claimid)
 }
 
 

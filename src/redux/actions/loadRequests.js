@@ -29,6 +29,9 @@ const actions = (typeOfAction) => {
 	}
 }
 
+// const serverURL = "http://35.226.26.159:8080/api/V1/agents"
+const localURL = "http://127.0.0.1:5000/iroha_rest/api/v1.0/items"
+
 
 /**
  * 
@@ -43,8 +46,10 @@ export const loadRequestsActionCreator = (status, page, size, action="REQUESTS",
 	
 	dispatch(newActionCreators.listLoading())
 	//let URL = `${Config.Config.ServerURL}/requests`
-	let URL = `http://35.226.26.159:8080/api/V1/agents/${type}?companyId=1&status=${status}&page=${page}&size=${size}`
-  const authJWT = localStorage.getItem('user')
+	// let URL = `http://35.226.26.159:8080/api/V1/agents/${type}?companyId=1&status=${status}&page=${page}&size=${size}`
+	
+	const URL = `${localURL}?type=${type}&companyId=1&status=${status}&page=${page}&size=${size}`
+	const authJWT = localStorage.getItem('user')
   console.log(authJWT)
   axios.get(URL, {
 		headers: {
@@ -52,10 +57,7 @@ export const loadRequestsActionCreator = (status, page, size, action="REQUESTS",
 		}
 	})
 	.then(response => {
-		if (action === "CLAIMING") {
-			console.log(response)
-		}
-		
+		console.log(response)		
     const coupons = response.data.data
     const currentPage = response.data.meta.currentPage
     const totalPages = response.data.meta.totalPages 
@@ -67,3 +69,30 @@ export const loadRequestsActionCreator = (status, page, size, action="REQUESTS",
 		dispatch(newActionCreators.listLoadFailed())
 	})
 }
+
+
+// Test
+// export const asyncLoadRequestsActionCreator = async (status, page, size, action="REQUESTS", type="requests") => async (dispatch, getState) => {
+// 	const newActionCreators = actions(action)
+	
+// 	dispatch(newActionCreators.listLoading())
+// 	//let URL = `${Config.Config.ServerURL}/requests`
+	
+// 	let URL = `${serverURL}/${type}?companyId=1&status=${status}&page=${page}&size=${size}`
+//   const authJWT = localStorage.getItem('user')
+// 	console.log(authJWT)
+	
+// 	try {
+// 		let response = await axios.get(URL, {headers: {"Authorization": authJWT}})
+		
+// 		const coupons = response.data.data
+//     const currentPage = response.data.meta.currentPage
+//     const totalPages = response.data.meta.totalPages 
+
+// 		dispatch(newActionCreators.listLoaded(coupons, currentPage, totalPages))
+
+// 	} catch (error) {
+// 		console.log(error)
+// 		dispatch(newActionCreators.listLoadFailed())
+// 	}
+// }

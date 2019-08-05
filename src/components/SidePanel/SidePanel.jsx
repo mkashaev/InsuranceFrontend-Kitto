@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Menu, Button, Image } from 'semantic-ui-react'
+import { Grid, Menu, Image } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 
@@ -28,27 +28,25 @@ class SidePanel extends Component {
           style={{ background: "#444341", fontSize: "1.2rem"}}
         >
           <Grid>
-            <Grid.Row centered>
+            <Grid.Row centered style={{marginTop: 25, marginBottom: 25}}>
               <Image src={logo} size='small'/>
             </Grid.Row>
-            <Grid.Row centered>
-            <Link to="/claims">
-                <Button onClick={this.handleSidebarClickList} style={{width: "100%"}}>Claims</Button>
-              </Link>              
-            </Grid.Row>
-            <Grid.Row centered>
-              <Link to="/requests">
-                <Button onClick={this.handleSidebarClickList} style={{width: "100%"}}>List of applications</Button>
-              </Link>
-            </Grid.Row>
-            <Grid.Row centered>
-              <Link to="/history">
-                <Button onClick={this.handleSidebarClickAdd} style={{width: "100%"}}>History</Button>
-              </Link>
-            </Grid.Row>
-            <Grid.Row centered>
-              <Button onClick={this.out} content="Sign Out"/>
-            </Grid.Row>
+
+            <Menu.Item as={Link} to="/requests">
+              List of applications
+            </Menu.Item>
+            
+            <Menu.Item as={Link} to="/claims">
+              Claims
+            </Menu.Item>
+
+            <Menu.Item as={Link} to="/history">
+              History
+            </Menu.Item>
+
+            <Menu.Item onClick={this.out}>
+              Sign Out
+            </Menu.Item>
           </Grid>
         </Menu>
         <Grid.Column style={{marginLeft: 270, marginRight: 18}}>

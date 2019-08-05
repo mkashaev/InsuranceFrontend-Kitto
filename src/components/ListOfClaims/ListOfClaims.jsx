@@ -1,5 +1,8 @@
 import React from "react";
-import { List, Segment, Header, Container, Label, Placeholder, Pagination, Icon } from "semantic-ui-react";
+import { 
+  List, Segment, Header, Container, Label, 
+  Placeholder, Pagination, Icon, Button 
+} from "semantic-ui-react";
 import ClaimModal from './ClaimModal'
 
 
@@ -15,10 +18,14 @@ export default class extends React.Component {
 
   componentDidMount() {
     let { status, action, type } = this.props
-    console.log(status)
     if (this.props.requests.length < 1) {
       this.props.loadRequests(status, 0, 10, action, type)
     }
+  }
+
+  handleRefresh = () => {
+    const { status, action, type, loadRequests } = this.props
+    loadRequests(status, 0, 10, action, type)
   }
 
   handleOnOpen = (app) => {
@@ -56,6 +63,8 @@ export default class extends React.Component {
 
   handlePaginationChange = (e, {activePage}) => {
     let { status, action, type } = this.props
+    // Test
+    status = "ALL"
     this.props.loadRequests(status, activePage-1, 10, action, type)
   }
 
@@ -63,7 +72,8 @@ export default class extends React.Component {
     return (
       <div>
         <Container>
-          <Header as='h1'>List of insurance applications</Header>
+          <Header as='h1'>List of claims</Header>
+          <Button labelPosition='left' icon='refresh' content='Refresh' onClick={this.handleRefresh} />
           <Segment className="container">
           <List divided relaxed>
             {this.props.loading? this.placeholder() : this.props.requests.map((app, index) => (

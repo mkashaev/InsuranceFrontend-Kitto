@@ -28,7 +28,8 @@ class Login extends React.Component {
     event.preventDefault()
     if (this.isFormValid(this.state)) {
       this.setState({errors: [], loading: true}) 
-      const URL = 'http://35.226.26.159:8080/login'
+      // const URL = 'http://35.226.26.159:8080/login'
+      const URL = "http://35.188.85.41:8080/login"
       axios.post(URL, {
         'username': this.state.email,
         'password': this.state.password

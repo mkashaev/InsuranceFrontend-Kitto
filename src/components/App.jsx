@@ -16,7 +16,8 @@ class App extends Component {
         <BrowserRouter>
           <SidePanel>
             <Switch>
-              <Route path="/claims"   render={()=><ListOfPendingClaims status="PENDING%2CACCEPTED" action="CLAIMING" type="claims"/>}/>
+              {/** status="PENDING%2CACCEPTED"*/}
+              <Route path="/claims"   render={()=><ListOfPendingClaims status="ALL" action="CLAIMING" type="claims"/>}/>
               <Route path="/requests" render={()=><ListOfRequests status="PENDING" action="REQUESTS" type="requests"/>}/>
               <Route path="/history"  render={()=><ListOfHistoryApps status="REJECTED,ACCEPTED" action="HISTORY" type="requests"/>}/>
               <Redirect from="*" to="/requests"/>

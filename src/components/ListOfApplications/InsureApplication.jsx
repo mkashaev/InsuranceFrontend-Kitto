@@ -55,7 +55,6 @@ class InsureApplicationModal extends React.Component {
 
   // TO DO
   // !Experemental Async/await version
-  // async handleOnChangeStatus(data, status, close) {
   handleOnChangeStatus = async (data, status, close) => {
     if (status === "accepted") {
       this.setState(accept_loading)
@@ -63,100 +62,114 @@ class InsureApplicationModal extends React.Component {
       this.setState(reject_loading)
     }
 
-    let URL = "http://10.90.137.18:8888/iroha_rest/api/v1.0/items"
-    let item_id = "string"
+
+
+    //let URL = "http://10.90.137.18:8888/iroha_rest/api/v1.0/items"
+    const URL = "http://127.0.0.1:5000/iroha_rest/api/v1.0/items"
+    
+    const { country, state, city, street, house_num, apartment_num } = data.address
+    const item_id = `${country}${state}${city}${street}${house_num}${house_num}${apartment_num}`.split(" ").join("_")
+
     let req_data = {
       data: {
         "item": {
-        "item_id": item_id,
-        "insurance_expiration_date": data.policyenddate.split('-').reverse().join('-')
+          "item_id": item_id,
+          "insurance_expiration_date": data.policyenddate.split('-').reverse().join('-')
         },
+        "request_id": data.insurancerequestid,
         "company": "oramitsu",
         "account": "Marat",
         "private_key": "9c7574ce40ade726b2fa27ec18174b3cf8368380be891b4099ab64c9f19cf793"
       }
     }
 
-    let acceptedURL = `http://35.226.26.159:8080/api/V1/agents/requests?insuranceId=${data.insurancerequestid}&status=ACCEPTED`
+    // let acceptedURL = `http://35.226.26.159:8080/api/V1/agents/requests?insuranceId=${data.insurancerequestid}&status=ACCEPTED`
 
     try {
-      let response1 = await axios.post(URL, req_data)
+      let jwt = localStorage['user']
+      console.log("First")
+      let response1 = await axios.post(URL, req_data, {headers: {"Authorization": jwt}})
       console.log(response1)
       
-      let response2 = await axios.patch(acceptedURL)
-      console.log(response2)
+      // console.log("Second")
+      // let JWT = localStorage['user']
+      // let response2 = await axios.patch(acceptedURL, null, {headers: {"Authorization": JWT}})
+      // console.log(response2)
 
       close()
-      this.props.loadRequests()
+      const status="PENDING" 
+      const action="REQUESTS"
+      const type="requests"
+      this.props.loadRequests(status, 0, 10, action, type)
 
     } catch (error) {
-      console.log(error)
+      console.log(`Type of error: ${typeof error}`)
+      this.setState(active_buttons)
     }
-
   }
   // end
   
   // close - funciton to close modal window
-  handleOnChangeStatus = (data, status, close) => {
-    if (status === "accepted") {
-      this.setState(accept_loading)
-    } else {
-      this.setState(reject_loading)
-    }
-    // let URL = `${Config.Config.ServerURL}/update`
-    let URL = "http://10.90.137.18:8888/iroha_rest/api/v1.0/items"
-    let item_id = ""+data.address.country
-                  + data.address.state
-                  + data.address.city 
-                  + data.address.street 
-                  + data.address.house_num
-                  + data.address.apartment_num
+  // handleOnChangeStatus = (data, status, close) => {
+  //   if (status === "accepted") {
+  //     this.setState(accept_loading)
+  //   } else {
+  //     this.setState(reject_loading)
+  //   }
+  //   // let URL = `${Config.Config.ServerURL}/update`
+  //   let URL = "http://10.90.137.18:8888/iroha_rest/api/v1.0/items"
+  //   let item_id = ""+data.address.country
+  //                 + data.address.state
+  //                 + data.address.city 
+  //                 + data.address.street 
+  //                 + data.address.house_num
+  //                 + data.address.apartment_num
 
 
     
-    axios.post(URL, {
-      data: {
-        "item": {
-        "item_id": item_id,
-        "insurance_expiration_date": data.policyenddate.split('-').reverse().join('-')
-        },
-        "company": "oramitsu",
-        "account": "Marat",
-        "private_key": "9c7574ce40ade726b2fa27ec18174b3cf8368380be891b4099ab64c9f19cf793"
-      }
-    })
-    .then(resp => {
-      console.log(resp)
+  //   axios.post(URL, {
+  //     data: {
+  //       "item": {
+  //       "item_id": item_id,
+  //       "insurance_expiration_date": data.policyenddate.split('-').reverse().join('-')
+  //       },
+  //       "company": "oramitsu",
+  //       "account": "Marat",
+  //       "private_key": "9c7574ce40ade726b2fa27ec18174b3cf8368380be891b4099ab64c9f19cf793"
+  //     }
+  //   })
+  //   .then(resp => {
+  //     console.log(resp)
 
-      this.setState(active_buttons)
-      let acceptedURL = `http://35.226.26.159:8080/api/V1/agents/requests?insuranceId=${data.insurancerequestid}&status=ACCEPTED`
-      axios.patch(acceptedURL)
-      .then(resp => {
-        console.log(resp)
-        close()
-        this.props.loadRequests()
-      })
-      .catch(err => {
-        console.log(err)
-      })
+  //     this.setState(active_buttons)
+  //     let acceptedURL = `http://35.226.26.159:8080/api/V1/agents/requests?insuranceId=${data.insurancerequestid}&status=ACCEPTED`
+  //     axios.patch(acceptedURL)
+  //     .then(resp => {
+  //       console.log(resp)
+  //       close()
+  //       this.props.loadRequests()
+  //     })
+  //     .catch(err => {
+  //       console.log(err)
+  //     })
 
-    })
-    .catch(err => {
-      console.log(`Error: ${err}`)
-      console.log("This item already insured")
-      let rejectURL = `http://35.226.26.159:8080/api/V1/agents/requests?insuranceId=${data.insurancerequestid}&status=REJECTED`
-      axios.patch(rejectURL)
-      .then(resp => {
-        console.log(resp)
-        close()
-        this.props.loadRequests()
-      })
-      .catch(err => {
-        console.log(err)
-      })
-      this.setState(active_buttons)
-    })
-  }
+  //   })
+  //   .catch(err => {
+  //     console.log(`Error: ${err}`)
+  //     console.log("This item already insured")
+  //     let rejectURL = `http://35.226.26.159:8080/api/V1/agents/requests?insuranceId=${data.insurancerequestid}&status=REJECTED`
+  //     axios.patch(rejectURL)
+  //     .then(resp => {
+  //       console.log(resp)
+  //       close()
+  //       this.props.loadRequests()
+  //     })
+  //     .catch(err => {
+  //       console.log(err)
+  //     })
+  //     this.setState(active_buttons)
+  //   })
+  // }
 
   render() {
     const { open, close, data } = this.props
@@ -249,7 +262,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  loadRequests: () => dispatch(loadRequestsActionCreator()) 
+  loadRequests: (status, page, size, action, type) => dispatch(loadRequestsActionCreator(status, page, size, action, type))
 })
 
 
